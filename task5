@@ -1,0 +1,81 @@
+#include <iostream>
+#include <type_traits>
+#include <memory>
+
+template <typename T>
+class Vector
+{
+public:
+	static_assert(std::is_integer<T>::value, "T must be an integtal type");
+
+	// constructor with optional size
+
+	Vector(size_t size = 4)
+	{
+		data = std::make_unique<T[]>(size);
+		this->size = size;
+	}
+
+	// Copy constructor
+
+	Vector(const Vector& other)
+	{
+		size = other.size;
+		data = std::make_unique<T[]>(size);
+		for (size_t i = 0; i < size; ++i) {
+			data[i] = other.data[i];
+		}
+
+	}
+	 
+	// Destructor
+
+	~Vector() { delete T; }
+
+	// Copy assignment operator
+
+	Vector& operator=(const Vector& other)
+	{
+		if (this != &other) {
+			size = other.size;
+			std::unique_ptr<T[]> newData = std::make_unique<T[]>(size);
+			for (size_t i = 0; i < size; ++i) {
+				newData[i] = other.Data[i];
+			}
+			std::swap(data, newData);
+		}
+		return *this;
+	}
+	
+	// Move constructor
+	 
+	Vector(Vector&& T) noexcept
+	{
+		std::swap(data, other.data);
+		std::swap(size, other.size);
+	}
+
+	// Move assignment operator
+
+	Vector& operator=(const Vector&& other) noexcept
+	{
+		if (this != &other)
+		{
+			std::swap(data, other.data);
+			std::swap(size, other.size);
+		}
+		return;
+	}
+			
+
+private:
+	T* harray = new T[4];
+};
+
+
+int main()
+{
+
+
+	return 0;
+}
